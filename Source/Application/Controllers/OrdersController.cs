@@ -1,4 +1,9 @@
-﻿using CheckoutChallenge.DataContracts;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using CheckoutChallenge.Application.Translators;
+using CheckoutChallenge.Domain.Model;
+using CheckoutChallenge.Domain.Storage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CheckoutChallenge.Application.Controllers
@@ -8,16 +13,21 @@ namespace CheckoutChallenge.Application.Controllers
     [Route("v1/orders")]
     public class OrdersController : ControllerBase
     {
-        public OrdersController()
+        private readonly IOrderingRepository repository;
+
+        public OrdersController(IOrderingRepository repository)
         {
+            this.repository = repository;
         }
 
         [HttpGet]
-        public IActionResult GetOrders()
+        public async Task<IActionResult> GetOrders(CancellationToken cancellationToken)
         {
-            return Ok(new OrderList()
-            {
-                Items = new Order[0]
+            var orders = await repository.FindOrders(cancellationToken)
+                         ?? new Order[0];
+
+            return Ok(new DataContracts.OrderList {
+                Items = orders.ToDto()
             });
         }
     }

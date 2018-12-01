@@ -20,6 +20,7 @@ namespace CheckoutChallenge.Application
             return WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services =>
                 {
+                    services.AddTransient<IConfigureServices, InMemoryDataModule>();
                     services.AddTransient<IConfigureServices, WebApiModule>();
                     services.AddTransient<IConfigureAspNetAppBuilder, WebApiModule>();
                 })
