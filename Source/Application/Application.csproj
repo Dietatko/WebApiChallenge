@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>CheckoutChallenge.Application</AssemblyName>
     <RootNamespace>CheckoutChallenge.Application</RootNamespace>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

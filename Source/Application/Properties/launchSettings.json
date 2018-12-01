@@ -1,0 +1,22 @@
+{
+    "profiles": {
+        "DEV": {
+            "commandName": "Project",
+            "launchBrowser": true,
+            "launchUrl": "http://localhost:28000/",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ASPNETCORE_URLS": "http://*:28000/"
+            }
+        },
+        "POD": {
+            "commandName": "Project",
+            "launchBrowser": true,
+            "launchUrl": "http://localhost:28000/",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Production",
+                "ASPNETCORE_URLS": "http://*:28000/"
+            }
+        }
+    }
+}
