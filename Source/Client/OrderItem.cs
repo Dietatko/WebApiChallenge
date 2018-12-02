@@ -6,9 +6,9 @@ namespace CheckoutChallenge.Client
 {
     public class OrderItem
     {
-        private readonly OrderingClient client;
+        private readonly IInternalOrderingClient client;
 
-        public OrderItem(OrderingClient client, Uri id, Guid productId, decimal amount, DateTime createdAt, DateTime lastModifiedAt)
+        internal OrderItem(IInternalOrderingClient client, Uri id, Guid productId, decimal amount, DateTime createdAt, DateTime lastModifiedAt)
         {
             this.client = client;
             Id = id;

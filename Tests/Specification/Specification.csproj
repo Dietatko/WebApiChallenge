@@ -42,6 +42,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderItems.feature.cs">
+      <DependentUpon>OrderItems.feature</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Orders.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -51,6 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="OrderItems.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>OrderItems.feature.cs</LastGenOutput>
+    </None>
     <None Include="Orders.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Orders.feature.cs</LastGenOutput>

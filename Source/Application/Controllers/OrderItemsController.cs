@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CheckoutChallenge.Application.Translators;
@@ -10,35 +11,34 @@ namespace CheckoutChallenge.Application.Controllers
 {
     [Controller]
     [Produces("application/json")]
-    [Route("v1/orders")]
-    public class OrdersController : ControllerBase
+    [Route("v1/orders/{orderId}/items")]
+    public class OrderItemsController : ControllerBase
     {
         private readonly IOrderingRepository repository;
 
-        public OrdersController(IOrderingRepository repository)
+        public OrderItemsController(IOrderingRepository repository)
         {
             this.repository = repository;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOrders(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetOrderItems(Guid orderId, CancellationToken cancellationToken)
         {
-            var orders = await repository.FindOrders(cancellationToken)
-                         ?? new Order[0];
+            var order = await repository.GetOrder(orderId, cancellationToken);
+            if (order == null)
+                return NotFound();
 
-            return Ok(new DataContracts.OrderList {
-                Items = orders.ToDto(CreateOrderUrl)
-            });
+            return Ok(new DataContracts.OrderItem[0]);
         }
-
-        [HttpGet("{id}", Name = nameof(GetOrder))]
-        public async Task<IActionResult> GetOrder(Guid id, CancellationToken cancellationToken)
+        /*
+        [HttpGet("{itemId}", Name = nameof(GetOrderItem))]
+        public async Task<IActionResult> GetOrderItem(Guid orderId, Guid itemId, CancellationToken cancellationToken)
         {
             var order = await repository.GetOrder(id, cancellationToken);
             if (order == null)
                 return NotFound();
 
-            return Ok(order.ToDto(CreateOrderUrl(order)));
+            return Ok(order.ToDto(CreateOrderItemUrl(order)));
         }
 
         [HttpPost]
@@ -60,9 +60,17 @@ namespace CheckoutChallenge.Application.Controllers
             return Created(newOrderUrl, newOrder.ToDto(newOrderUrl));
         }
 
-        private Uri CreateOrderUrl(Order order)
+        private Uri CreateOrderItemUrl(Order order)
         {
-            return new Uri(Url.Action(nameof(GetOrder), new {id = order.Id}), UriKind.Relative);
-        }
+            return new Uri(
+                Url.Action(
+                    nameof(GetOrderItem), 
+                    new
+                    {
+                        orderId = order.Id,
+                        itemId = order.Id
+                    }), 
+                UriKind.Relative);
+        }*/
     }
 }

@@ -18,7 +18,7 @@ namespace CheckoutChallenge.Client.Translators
         {
             return new Model.Order(
                 client,
-                dto.Id,
+                new Uri(dto.Id.ToString(), UriKind.Relative),
                 dto.CustomerId, 
                 dto.CreatedAt, 
                 dto.LastModifiedAt);

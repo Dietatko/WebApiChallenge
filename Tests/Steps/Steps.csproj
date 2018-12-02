@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrdersItemsSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OrdersSteps.cs" />
     <Compile Include="SetupSteps.cs" />

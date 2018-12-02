@@ -35,9 +35,9 @@ namespace CheckoutChallenge.Client
             UpdateData(updatedOrder);
         }
 
-        public IEnumerable<OrderItem> GetItems()
+        public Task<IEnumerable<OrderItem>> GetItems(CancellationToken cancellationToken)
         {
-            return new OrderItem[0];
+            return client.GetOrderItems(this, cancellationToken);
         }
 
         private void UpdateData(Order updatedOrder)

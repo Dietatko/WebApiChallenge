@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -109,6 +111,22 @@ namespace CheckoutChallenge.Client
             }
         }
 
+        public async Task<IEnumerable<OrderItem>> GetOrderItems(Order order, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var httpResponse = await httpClient.GetAsync(AppendUri(order.Id, "items"), cancellationToken);
+                await HandleFailure(httpResponse, $"Getting items of the order '{order.Id}'");
+
+                var items = await DeserializeContent<IEnumerable<DataContracts.OrderItem>>(httpResponse);
+                return items.ToModel(this).ToList();
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new OrderingClientException("An unexpected error occured while accessing ordering service.", ex);
+            }
+        }
+
         private HttpContent SerializeContent(object content)
         {
             return new StringContent(
@@ -144,6 +162,12 @@ namespace CheckoutChallenge.Client
             throw new OrderingClientException(
                 $"{operation} failed because '{error.Message}'",
                 httpResponse.StatusCode);
+        }
+
+        private Uri AppendUri(Uri baseUri, string relativePath)
+        {
+            // TODO: find better way how to append relative uris
+            return new Uri($"{baseUri}/{relativePath}", UriKind.Relative);
         }
     }
 }
