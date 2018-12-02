@@ -5,7 +5,7 @@
 
 Scenario: Lists no orders on start
 	Given I have running ordering service
-	 Then there are no existing orders
+	 Then the service lists no existing orders
 
 Scenario: Add new order
 	Given I have running ordering service

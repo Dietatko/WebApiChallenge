@@ -1,20 +1,50 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CheckoutChallenge.Client
 {
     public class Order
     {
-        public Order(Guid id, Guid customerId, DateTime createdAt, DateTime lastModifiedAt)
+        private readonly IInternalOrderingClient client;
+
+        internal Order(IInternalOrderingClient client, Uri id, Guid customerId, DateTime createdAt, DateTime lastModifiedAt)
         {
+            this.client = client;
             Id = id;
             CustomerId = customerId;
             CreatedAt = createdAt;
             LastModifiedAt = lastModifiedAt;
         }
 
-        public Guid Id { get; }
+        public Uri Id { get; }
         public Guid CustomerId { get; set; }
-        public DateTime CreatedAt { get; }
-        public DateTime LastModifiedAt { get; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime LastModifiedAt { get; private set; }
+
+        public async Task Update(CancellationToken cancellationToken)
+        {
+            var updatedOrder = await client.GetOrder(Id, cancellationToken);
+            UpdateData(updatedOrder);
+        }
+
+        public async Task Store(CancellationToken cancellationToken)
+        {
+            var updatedOrder = await client.StoreOrder(this, cancellationToken);
+            UpdateData(updatedOrder);
+        }
+
+        public IEnumerable<OrderItem> GetItems()
+        {
+            return new OrderItem[0];
+        }
+
+        private void UpdateData(Order updatedOrder)
+        {
+            CustomerId = updatedOrder.CustomerId;
+            CreatedAt = updatedOrder.CreatedAt;
+            LastModifiedAt = updatedOrder.LastModifiedAt;
+        }
     }
 }

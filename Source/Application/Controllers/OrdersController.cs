@@ -28,7 +28,7 @@ namespace CheckoutChallenge.Application.Controllers
                          ?? new Order[0];
 
             return Ok(new DataContracts.OrderList {
-                Items = orders.ToDto()
+                Items = orders.ToDto(CreateOrderUrl)
             });
         }
 
@@ -39,7 +39,7 @@ namespace CheckoutChallenge.Application.Controllers
             if (order == null)
                 return NotFound();
 
-            return Ok(order.ToDto());
+            return Ok(order.ToDto(CreateOrderUrl(order)));
         }
 
         [HttpPost]
@@ -56,7 +56,14 @@ namespace CheckoutChallenge.Application.Controllers
             }
             
             await repository.StoreOrder(newOrder, cancellationToken);
-            return CreatedAtAction(nameof(GetOrder), new { id = newOrder.Id }, newOrder.ToDto());
+
+            var newOrderUrl = CreateOrderUrl(newOrder);
+            return Created(newOrderUrl, newOrder.ToDto(newOrderUrl));
+        }
+
+        private Uri CreateOrderUrl(Order order)
+        {
+            return new Uri(Url.Action(nameof(GetOrder), new {id = order.Id}), UriKind.Relative);
         }
     }
 }

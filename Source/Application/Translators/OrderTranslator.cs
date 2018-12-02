@@ -8,16 +8,16 @@ namespace CheckoutChallenge.Application.Translators
 {
     internal static class OrderTranslator
     {
-        public static IEnumerable<Dto.Order> ToDto(this IEnumerable<Model.Order> model)
+        public static IEnumerable<Dto.Order> ToDto(this IEnumerable<Model.Order> model, Func<Model.Order, Uri> idProvider)
         {
-            return model.Select(ToDto);
+            return model.Select(x => x.ToDto(idProvider(x)));
         }
 
-        public static Dto.Order ToDto(this Model.Order model)
+        public static Dto.Order ToDto(this Model.Order model, Uri id)
         {
             return new Dto.Order
             {
-                Id = model.Id,
+                Id = id,
                 CustomerId = model.CustomerId,
                 CreatedAt = model.CreatedAt,
                 LastModifiedAt = model.LastModifiedAt

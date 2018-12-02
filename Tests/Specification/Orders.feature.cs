@@ -89,7 +89,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
-  testRunner.Then("there are no existing orders", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the service lists no existing orders", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
