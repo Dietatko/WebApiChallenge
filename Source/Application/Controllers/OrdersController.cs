@@ -20,6 +20,25 @@ namespace CheckoutChallenge.Application.Controllers
             this.repository = repository;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] DataContracts.Order orderDto, CancellationToken cancellationToken)
+        {
+            Order newOrder;
+            try
+            {
+                newOrder = new Order(Guid.NewGuid(), orderDto.CustomerId);
+            }
+            catch (DataValidationException ex)
+            {
+                return BadRequest(new DataContracts.Error(ex.Message));
+            }
+            
+            await repository.StoreOrder(newOrder, cancellationToken);
+
+            var newOrderUrl = CreateOrderUrl(newOrder);
+            return Created(newOrderUrl, newOrder.ToDto(newOrderUrl));
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetOrders(CancellationToken cancellationToken)
         {
@@ -41,25 +60,6 @@ namespace CheckoutChallenge.Application.Controllers
             return Ok(order.ToDto(CreateOrderUrl(order)));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] DataContracts.Order orderDto, CancellationToken cancellationToken)
-        {
-            Order newOrder;
-            try
-            {
-                newOrder = new Order(Guid.NewGuid(), orderDto.CustomerId);
-            }
-            catch (DataValidationException ex)
-            {
-                return BadRequest(new DataContracts.Error(ex.Message));
-            }
-            
-            await repository.StoreOrder(newOrder, cancellationToken);
-
-            var newOrderUrl = CreateOrderUrl(newOrder);
-            return Created(newOrderUrl, newOrder.ToDto(newOrderUrl));
-        }
-
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] DataContracts.Order orderDto, CancellationToken cancellationToken)
         {
@@ -79,6 +79,27 @@ namespace CheckoutChallenge.Application.Controllers
             await repository.StoreOrder(order, cancellationToken);
 
             return Ok(order.ToDto(CreateOrderUrl(order)));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(Guid id, CancellationToken cancellationToken)
+        {
+            var order = await repository.GetOrder(id, cancellationToken);
+            if (order == null)
+                return NotFound();
+
+            try
+            {
+                order.Delete();
+            }
+            catch (DataValidationException ex)
+            {
+                return BadRequest(new DataContracts.Error(ex.Message));
+            }
+
+            await repository.StoreOrder(order, cancellationToken);
+
+            return NoContent();
         }
 
         private Uri CreateOrderUrl(Order order)

@@ -14,7 +14,12 @@ namespace CheckoutChallenge.Domain.Storage
 
         public Task<IEnumerable<Order>> FindOrders(CancellationToken cancellationToken)
         {
-            return Task.Factory.StartNew(() => (IEnumerable<Order>)orderStore.Values.ToList(), cancellationToken);
+            return Task.Factory.StartNew(() => 
+                (IEnumerable<Order>)orderStore
+                    .Values
+                    .Where(x => !x.IsDeleted)
+                    .ToList(), 
+                cancellationToken);
         }
 
         public Task<Order> GetOrder(Guid id, CancellationToken cancellationToken)
@@ -22,6 +27,10 @@ namespace CheckoutChallenge.Domain.Storage
             return Task.Factory.StartNew(() =>
             {
                 orderStore.TryGetValue(id, out var order);
+
+                if (order != null && order.IsDeleted)
+                    order = null;
+
                 return order;
             }, cancellationToken);
         }

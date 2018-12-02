@@ -45,6 +45,11 @@ namespace CheckoutChallenge.Client
             return client.ClearOrder(this, cancellationToken);
         }
 
+        public Task Delete(CancellationToken cancellationToken)
+        {
+            return client.DeleteOrder(this, cancellationToken);
+        }
+
         public Task<OrderItem> CreateItem(Guid productId, decimal amount, CancellationToken cancellationToken)
         {
             return client.CreateOrderItem(this, productId, amount, cancellationToken);

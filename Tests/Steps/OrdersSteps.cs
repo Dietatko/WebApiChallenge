@@ -41,7 +41,7 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
             allOrders.Should().HaveCount(count);
         }
 
-        [Then(@"the service lists (.*) order")]
+        [Then(@"the service lists the (.*) order")]
         public async Task ThenServiceListsXOrder(string name)
         {
             var expectedOrder = GetStoredOrder(name);
@@ -77,6 +77,12 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
             await order.Clear(CancellationToken.None);
         }
 
+        [When(@"I delete (.*) order")]
+        public async Task WhenIDeleteMyOrder(string name)
+        {
+            var order = GetStoredOrder(name);
+            await order.Delete(CancellationToken.None);
+        }
 
         public static void StoreOrder(string name, Order order)
         {

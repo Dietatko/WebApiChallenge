@@ -15,5 +15,6 @@ namespace CheckoutChallenge.Client
         Task<OrderItem> StoreOrderItem(OrderItem item, CancellationToken cancellationToken);
         Task DeleteOrderItem(OrderItem item, CancellationToken cancellationToken);
         Task ClearOrder(Order order, CancellationToken cancellationToken);
+        Task DeleteOrder(Order order, CancellationToken cancellationToken);
     }
 }

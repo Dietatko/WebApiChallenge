@@ -23,6 +23,8 @@ namespace CheckoutChallenge.Domain.Model
             get => customerId;
             set
             {
+                ValidateNotDeleted();
+
                 if (value == Guid.Empty)
                     throw new DataValidationException("A valid customer id has to be specified.");
 
@@ -38,8 +40,12 @@ namespace CheckoutChallenge.Domain.Model
 
         public DateTime LastModifiedAt { get; private set; }
 
+        public bool IsDeleted { get; private set; }
+
         public OrderItem AddItem(Guid productId, decimal amount)
         {
+            ValidateNotDeleted();
+
             var item = new OrderItem(++itemId, productId, amount);
             items.Add(item);
 
@@ -60,8 +66,25 @@ namespace CheckoutChallenge.Domain.Model
 
         public void Clear()
         {
+            ValidateNotDeleted();
+
             items.Clear();
             LastModifiedAt = DateTime.UtcNow;
+        }
+
+        public void Delete()
+        {
+            if (IsDeleted)
+                return;
+            
+            IsDeleted = true;
+            LastModifiedAt = DateTime.UtcNow;
+        }
+
+        private void ValidateNotDeleted()
+        {
+            if (IsDeleted)
+                throw new DataValidationException("Unable to change deleted order.");
         }
     }
 }
