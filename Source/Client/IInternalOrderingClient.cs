@@ -13,5 +13,6 @@ namespace CheckoutChallenge.Client
         Task<OrderItem> GetOrderItem(Uri id, CancellationToken cancellationToken);
         Task<OrderItem> CreateOrderItem(Order order, Guid productId, decimal amount, CancellationToken cancellationToken);
         Task<OrderItem> StoreOrderItem(OrderItem item, CancellationToken cancellationToken);
+        Task DeleteOrderItem(OrderItem item, CancellationToken cancellationToken);
     }
 }

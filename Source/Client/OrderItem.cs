@@ -38,6 +38,11 @@ namespace CheckoutChallenge.Client
             UpdateData(updatedItem);
         }
 
+        public Task Delete(CancellationToken cancellationToken)
+        {
+            return client.DeleteOrderItem(this, cancellationToken);
+        }
+
         private void UpdateData(OrderItem updatedItem)
         {
             ProductId = updatedItem.ProductId;

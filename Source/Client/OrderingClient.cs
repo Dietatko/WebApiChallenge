@@ -186,6 +186,21 @@ namespace CheckoutChallenge.Client
             }
         }
 
+        public async Task DeleteOrderItem(OrderItem item, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var httpResponse = await httpClient.DeleteAsync(
+                    item.Id,
+                    cancellationToken);
+                await HandleFailure(httpResponse, $"Deleting the order item '{item.Id}'");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new OrderingClientException("An unexpected error occured while accessing ordering service.", ex);
+            }
+        }
+
         private HttpContent SerializeContent(object content)
         {
             return new StringContent(

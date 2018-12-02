@@ -27,12 +27,14 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
             orderItems.Should().HaveCount(count);
         }
 
+        [Given(@"I added product ([0-9A-Fa-f\-]*) to (.*) order")]
         [When(@"I add product ([0-9A-Fa-f\-]*) to (.*) order")]
         public Task WhenIAddProductXToXOrder(Guid productId, string orderName)
         {
             return WhenIAddProductXWithAmountXToXOrder(productId, 1, orderName);
         }
 
+        [Given(@"I added product ([0-9A-Fa-f\-]*) with amount (\d+(?:\.\d+)?) to (.*) order")]
         [When(@"I add product ([0-9A-Fa-f\-]*) with amount (\d+(?:\.\d+)?) to (.*) order")]
         public async Task WhenIAddProductXWithAmountXToXOrder(Guid productId, decimal amount, string orderName)
         {
@@ -45,14 +47,25 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
         public async Task WhenIUpdateAmountOfProductECEB_BDEFInMyOrderTo(Guid productId, string orderName, decimal amount)
         {
             var order = OrdersSteps.GetStoredOrder(orderName);
-            var orderItems = await order.GetItems(CancellationToken.None);
+            var items = await order.GetItems(CancellationToken.None);
 
-            var item = orderItems.SingleOrDefault(x => x.ProductId == productId);
+            var item = items.SingleOrDefault(x => x.ProductId == productId);
             item.Should().NotBeNull();
 
             item.Amount = amount;
             await item.Store(CancellationToken.None);
         }
+
+        [When(@"I remove product ([0-9A-Fa-f\-]*) from (.*) order")]
+        public async Task WhenIRemoveProductECEB_BDEFFromMyOrder(Guid productId, string orderName)
+        {
+            var order = OrdersSteps.GetStoredOrder(orderName);
+            var items = await order.GetItems(CancellationToken.None);
+
+            var item = items.SingleOrDefault(x => x.ProductId == productId);
+            await item.Delete(CancellationToken.None);
+        }
+
 
         [Then(@"the (.*) order contains product ([0-9A-Fa-f\-]*)")]
         public async Task ThenXOrderContainsProductX(string orderName, Guid productId)

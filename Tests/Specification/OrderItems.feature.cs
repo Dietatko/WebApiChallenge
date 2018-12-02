@@ -133,10 +133,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 20
    testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 21
-  testRunner.When("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 2.5 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+   testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 2.5 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
-   testRunner.And("I update amount of product E831967C-622E-4804-87B5-BDE90B37F5C4 in my order to 4." +
-                    "6", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+  testRunner.When("I update amount of product E831967C-622E-4804-87B5-BDE90B37F5C4 in my order to 4." +
+                    "6", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 23
   testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 24
@@ -168,6 +168,56 @@ this.ScenarioInitialize(scenarioInfo);
 #line 32
    testRunner.And("the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 7." +
                     "7", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Remove single item")]
+        [Xunit.TraitAttribute("FeatureTitle", "OrderItems")]
+        [Xunit.TraitAttribute("Description", "Remove single item")]
+        public virtual void RemoveSingleItem()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Remove single item", null, ((string[])(null)));
+#line 34
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 35
+ testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 36
+   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 37
+   testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 38
+  testRunner.When("I remove product E831967C-622E-4804-87B5-BDE90B37F5C4 from my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 39
+  testRunner.Then("the my order has no items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Remove one of items")]
+        [Xunit.TraitAttribute("FeatureTitle", "OrderItems")]
+        [Xunit.TraitAttribute("Description", "Remove one of items")]
+        public virtual void RemoveOneOfItems()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Remove one of items", null, ((string[])(null)));
+#line 41
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 42
+ testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 43
+   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 44
+   testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 45
+   testRunner.And("I added product 0C0A5849-AF60-4EA7-A093-32B25A3D3E36 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 46
+  testRunner.When("I remove product E831967C-622E-4804-87B5-BDE90B37F5C4 from my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 47
+  testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 48
+   testRunner.And("the my order contains product 0C0A5849-AF60-4EA7-A093-32B25A3D3E36", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

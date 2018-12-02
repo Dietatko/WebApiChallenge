@@ -18,8 +18,8 @@ Scenario: Add new item
 Scenario: Update item amount
 	Given I have running ordering service
 	  And I creates a new my order
-	 When I add product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 2.5 to my order
-	  And I update amount of product E831967C-622E-4804-87B5-BDE90B37F5C4 in my order to 4.6
+	  And I added product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 2.5 to my order
+	 When I update amount of product E831967C-622E-4804-87B5-BDE90B37F5C4 in my order to 4.6
 	 Then the my order has 1 item
 	  And the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 4.6
 
@@ -30,3 +30,19 @@ Scenario: Amount is summed if same product is added
 	  And I add product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 5.5 to my order
 	 Then the my order has 1 item
 	  And the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 7.7
+
+Scenario: Remove single item
+	Given I have running ordering service
+	  And I creates a new my order
+	  And I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order
+	 When I remove product E831967C-622E-4804-87B5-BDE90B37F5C4 from my order
+	 Then the my order has no items
+
+Scenario: Remove one of items
+	Given I have running ordering service
+	  And I creates a new my order
+	  And I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order
+	  And I added product 0C0A5849-AF60-4EA7-A093-32B25A3D3E36 to my order
+	 When I remove product E831967C-622E-4804-87B5-BDE90B37F5C4 from my order
+	 Then the my order has 1 item
+	  And the my order contains product 0C0A5849-AF60-4EA7-A093-32B25A3D3E36

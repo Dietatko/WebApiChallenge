@@ -106,6 +106,31 @@ namespace CheckoutChallenge.Application.Controllers
             return Ok(item.ToDto(CreateItemUrl(order, item)));
         }
 
+        [HttpDelete("{itemId}")]
+        public async Task<IActionResult> DeleteItem(Guid orderId, int itemId, CancellationToken cancellationToken)
+        {
+            var order = await repository.GetOrder(orderId, cancellationToken);
+            if (order == null)
+                return NotFound();
+
+            var item = order.Items.SingleOrDefault(x => x.Id == itemId);
+            if (item == null)
+                return NotFound();
+
+            try
+            {
+                order.DeleteItem(item);
+            }
+            catch (DataValidationException ex)
+            {
+                return BadRequest(new DataContracts.Error(ex.Message));
+            }
+
+            await repository.StoreOrder(order, cancellationToken);
+
+            return NoContent();
+        }
+
         private Uri CreateItemUrl(Order order, OrderItem item)
         {
             return new Uri(
