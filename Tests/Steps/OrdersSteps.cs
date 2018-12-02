@@ -18,8 +18,8 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
             this.serviceClient = serviceClient;
         }
 
-        [Given(@"I creates a new (.*) order")]
-        [When(@"I create a new (.*) order")]
+        [Given(@"I created (.*) order")]
+        [When(@"I create new (.*) order")]
         public async Task WhenICreateANewOrder(string name)
         {
             var order = await serviceClient.CreateOrder(Guid.NewGuid(), CancellationToken.None);
@@ -69,6 +69,14 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
             order.CreatedAt.Should().Be(expectedValues.CreatedAt);
             order.LastModifiedAt.Should().Be(expectedValues.LastModifiedAt);
         }
+
+        [When(@"I clear (.*) order")]
+        public async Task WhenIClearMyOrder(string name)
+        {
+            var order = GetStoredOrder(name);
+            await order.Clear(CancellationToken.None);
+        }
+
 
         public static void StoreOrder(string name, Order order)
         {

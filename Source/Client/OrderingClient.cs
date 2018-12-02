@@ -110,6 +110,21 @@ namespace CheckoutChallenge.Client
             }
         }
 
+        public async Task ClearOrder(Order order, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var httpResponse = await httpClient.DeleteAsync(
+                    AppendUri(order.Id, "items"),
+                    cancellationToken);
+                await HandleFailure(httpResponse, $"Clearing the order '{order.Id}'");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new OrderingClientException("An unexpected error occured while accessing ordering service.", ex);
+            }
+        }
+
         public async Task<OrderItem> CreateOrderItem(Order order, Guid productId, decimal amount, CancellationToken cancellationToken)
         {
             try

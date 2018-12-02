@@ -89,7 +89,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
-  testRunner.When("I create a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.When("I create new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
   testRunner.Then("the my order has no items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -108,7 +108,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 12
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
-   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("I created my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 14
   testRunner.When("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 15
@@ -131,7 +131,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 19
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 20
-   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("I created my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 21
    testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 2.5 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 22
@@ -158,7 +158,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 27
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 28
-   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("I created my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 29
   testRunner.When("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 2.2 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 30
@@ -184,7 +184,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 35
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 36
-   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("I created my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 37
    testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 38
@@ -207,7 +207,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 42
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 43
-   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("I created my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 44
    testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 45

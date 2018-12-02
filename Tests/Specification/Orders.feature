@@ -9,6 +9,14 @@ Scenario: Lists no orders on start
 
 Scenario: Add new order
 	Given I have running ordering service
-	 When I create a new my order
+	 When I create new my order
 	 Then the service lists my order
 	  And the service provides details about my order
+
+Scenario: Clearing the order
+	Given I have running ordering service
+	  And I created my order
+	  And I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order
+	 When I clear my order
+	 Then the service lists my order
+	  And the my order has no items

@@ -5,7 +5,7 @@ namespace CheckoutChallenge.Domain.Model
 {
     public class Order
     {
-        private int itemId = 0;
+        private int itemId;
         private readonly List<OrderItem> items = new List<OrderItem>();
 
         public Order(Guid id, Guid customerId)
@@ -55,6 +55,12 @@ namespace CheckoutChallenge.Domain.Model
 
             items.Remove(item);
 
+            LastModifiedAt = DateTime.UtcNow;
+        }
+
+        public void Clear()
+        {
+            items.Clear();
             LastModifiedAt = DateTime.UtcNow;
         }
     }

@@ -131,6 +131,27 @@ namespace CheckoutChallenge.Application.Controllers
             return NoContent();
         }
 
+        [HttpDelete()]
+        public async Task<IActionResult> ClearItems(Guid orderId, CancellationToken cancellationToken)
+        {
+            var order = await repository.GetOrder(orderId, cancellationToken);
+            if (order == null)
+                return NotFound();
+
+            try
+            {
+                order.Clear();
+            }
+            catch (DataValidationException ex)
+            {
+                return BadRequest(new DataContracts.Error(ex.Message));
+            }
+
+            await repository.StoreOrder(order, cancellationToken);
+
+            return NoContent();
+        }
+
         private Uri CreateItemUrl(Order order, OrderItem item)
         {
             return new Uri(
