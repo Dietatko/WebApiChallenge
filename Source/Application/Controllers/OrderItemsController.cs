@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CheckoutChallenge.Application.Translators;
 using CheckoutChallenge.Domain.Model;
 using CheckoutChallenge.Domain.Storage;
 using Microsoft.AspNetCore.Mvc;
+using Order = CheckoutChallenge.Domain.Model.Order;
+using OrderItem = CheckoutChallenge.Domain.Model.OrderItem;
 
 namespace CheckoutChallenge.Application.Controllers
 {
@@ -22,55 +24,99 @@ namespace CheckoutChallenge.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOrderItems(Guid orderId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetItems(Guid orderId, CancellationToken cancellationToken)
         {
             var order = await repository.GetOrder(orderId, cancellationToken);
             if (order == null)
                 return NotFound();
 
-            return Ok(new DataContracts.OrderItem[0]);
+            return Ok(order.Items.ToDto(x => CreateItemUrl(order, x)));
         }
-        /*
-        [HttpGet("{itemId}", Name = nameof(GetOrderItem))]
-        public async Task<IActionResult> GetOrderItem(Guid orderId, Guid itemId, CancellationToken cancellationToken)
+        
+        [HttpGet("{itemId}", Name = nameof(GetItem))]
+        public async Task<IActionResult> GetItem(Guid orderId, int itemId, CancellationToken cancellationToken)
         {
-            var order = await repository.GetOrder(id, cancellationToken);
+            var order = await repository.GetOrder(orderId, cancellationToken);
             if (order == null)
                 return NotFound();
 
-            return Ok(order.ToDto(CreateOrderItemUrl(order)));
+            var item = order.Items.SingleOrDefault(x => x.Id == itemId);
+            if (item == null)
+                return NotFound();
+
+            return Ok(item.ToDto(CreateItemUrl(order, item)));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] DataContracts.Order orderDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateItem(Guid orderId, [FromBody] DataContracts.OrderItem itemDto, CancellationToken cancellationToken)
         {
-            Order newOrder;
+            var order = await repository.GetOrder(orderId, cancellationToken);
+            if (order == null)
+                return NotFound();
+
+            OrderItem item;
             try
             {
-                newOrder = new Order(Guid.NewGuid(), orderDto.CustomerId);
+                item = order.Items.SingleOrDefault(x => x.ProductId == itemDto.ProductId);
+                if (item != null)
+                {
+                    item.Amount += itemDto.Amount;
+                }
+                else
+                {
+                    item = order.AddItem(itemDto.ProductId, itemDto.Amount);
+                }
             }
             catch (DataValidationException ex)
             {
                 return BadRequest(new DataContracts.Error(ex.Message));
             }
             
-            await repository.StoreOrder(newOrder, cancellationToken);
+            await repository.StoreOrder(order, cancellationToken);
 
-            var newOrderUrl = CreateOrderUrl(newOrder);
-            return Created(newOrderUrl, newOrder.ToDto(newOrderUrl));
+            var orderUrl = CreateItemUrl(order, item);
+            return Created(orderUrl, item.ToDto(orderUrl));
         }
 
-        private Uri CreateOrderItemUrl(Order order)
+        [HttpPut("{itemId}")]
+        public async Task<IActionResult> UpdateItem(Guid orderId, int itemId, [FromBody] DataContracts.OrderItem itemDto, CancellationToken cancellationToken)
+        {
+            var order = await repository.GetOrder(orderId, cancellationToken);
+            if (order == null)
+                return NotFound();
+
+            var item = order.Items.SingleOrDefault(x => x.Id == itemId);
+            if (item == null)
+                return NotFound();
+
+            if (item.ProductId != itemDto.ProductId)
+                return BadRequest(new DataContracts.Error("Product cannot be changed."));
+
+            try
+            {
+                item.Amount = itemDto.Amount;
+            }
+            catch (DataValidationException ex)
+            {
+                return BadRequest(new DataContracts.Error(ex.Message));
+            }
+
+            await repository.StoreOrder(order, cancellationToken);
+
+            return Ok(item.ToDto(CreateItemUrl(order, item)));
+        }
+
+        private Uri CreateItemUrl(Order order, OrderItem item)
         {
             return new Uri(
                 Url.Action(
-                    nameof(GetOrderItem), 
+                    nameof(GetItem), 
                     new
                     {
                         orderId = order.Id,
-                        itemId = order.Id
+                        itemId = item.Id
                     }), 
                 UriKind.Relative);
-        }*/
+        }
     }
 }

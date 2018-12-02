@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CheckoutChallenge.Client
 {
@@ -19,9 +21,29 @@ namespace CheckoutChallenge.Client
         }
 
         public Uri Id { get; }
-        public Guid ProductId { get; }
-        public decimal Amount { get; }
-        public DateTime CreatedAt { get; }
-        public DateTime LastModifiedAt { get; }
+        public Guid ProductId { get; private set; }
+        public decimal Amount { get; set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime LastModifiedAt { get; private set; }
+
+        public async Task Update(CancellationToken cancellationToken)
+        {
+            var updatedItem = await client.GetOrderItem(Id, cancellationToken);
+            UpdateData(updatedItem);
+        }
+
+        public async Task Store(CancellationToken cancellationToken)
+        {
+            var updatedItem = await client.StoreOrderItem(this, cancellationToken);
+            UpdateData(updatedItem);
+        }
+
+        private void UpdateData(OrderItem updatedItem)
+        {
+            ProductId = updatedItem.ProductId;
+            Amount = updatedItem.Amount;
+            CreatedAt = updatedItem.CreatedAt;
+            LastModifiedAt = updatedItem.LastModifiedAt;
+        }
     }
 }

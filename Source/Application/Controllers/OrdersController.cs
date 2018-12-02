@@ -60,6 +60,27 @@ namespace CheckoutChallenge.Application.Controllers
             return Created(newOrderUrl, newOrder.ToDto(newOrderUrl));
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] DataContracts.Order orderDto, CancellationToken cancellationToken)
+        {
+            var order = await repository.GetOrder(id, cancellationToken);
+            if (order == null)
+                return NotFound();
+
+            try
+            {
+                order.CustomerId = orderDto.CustomerId;
+            }
+            catch (DataValidationException ex)
+            {
+                return BadRequest(new DataContracts.Error(ex.Message));
+            }
+
+            await repository.StoreOrder(order, cancellationToken);
+
+            return Ok(order.ToDto(CreateOrderUrl(order)));
+        }
+
         private Uri CreateOrderUrl(Order order)
         {
             return new Uri(Url.Action(nameof(GetOrder), new {id = order.Id}), UriKind.Relative);

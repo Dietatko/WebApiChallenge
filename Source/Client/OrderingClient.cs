@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -111,6 +110,31 @@ namespace CheckoutChallenge.Client
             }
         }
 
+        public async Task<OrderItem> CreateOrderItem(Order order, Guid productId, decimal amount, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var itemToCreate = new DataContracts.OrderItem
+                {
+                    ProductId = productId,
+                    Amount = amount
+                };
+
+                var httpResponse = await httpClient.PostAsync(
+                    AppendUri(order.Id, "items"),
+                    new StringContent(JsonConvert.SerializeObject(itemToCreate, serializerSettings), Encoding.UTF8, Constants.JsonMimeType),
+                    cancellationToken);
+                await HandleFailure(httpResponse, "Creating an order item");
+
+                var createdItem = await DeserializeContent<DataContracts.OrderItem>(httpResponse);
+                return createdItem.ToModel(this);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new OrderingClientException("An unexpected error occured while accessing ordering service.", ex);
+            }
+        }
+
         public async Task<IEnumerable<OrderItem>> GetOrderItems(Order order, CancellationToken cancellationToken)
         {
             try
@@ -120,6 +144,41 @@ namespace CheckoutChallenge.Client
 
                 var items = await DeserializeContent<IEnumerable<DataContracts.OrderItem>>(httpResponse);
                 return items.ToModel(this).ToList();
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new OrderingClientException("An unexpected error occured while accessing ordering service.", ex);
+            }
+        }
+
+        public async Task<OrderItem> GetOrderItem(Uri id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var httpResponse = await httpClient.GetAsync(id, cancellationToken);
+                await HandleFailure(httpResponse, $"Getting the order item '{id}'");
+
+                var order = await DeserializeContent<DataContracts.OrderItem>(httpResponse);
+                return order.ToModel(this);
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new OrderingClientException("An unexpected error occured while accessing ordering service.", ex);
+            }
+        }
+
+        public async Task<OrderItem> StoreOrderItem(OrderItem item, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var httpResponse = await httpClient.PutAsync(
+                    item.Id,
+                    SerializeContent(item.ToDto()),
+                    cancellationToken);
+                await HandleFailure(httpResponse, $"Updating the order item '{item.Id}'");
+
+                var updatedOrder = await DeserializeContent<DataContracts.OrderItem>(httpResponse);
+                return updatedOrder.ToModel(this);
             }
             catch (HttpRequestException ex)
             {

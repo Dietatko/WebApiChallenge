@@ -40,6 +40,11 @@ namespace CheckoutChallenge.Client
             return client.GetOrderItems(this, cancellationToken);
         }
 
+        public Task<OrderItem> CreateItem(Guid productId, decimal amount, CancellationToken cancellationToken)
+        {
+            return client.CreateOrderItem(this, productId, amount, cancellationToken);
+        }
+
         private void UpdateData(Order updatedOrder)
         {
             CustomerId = updatedOrder.CustomerId;

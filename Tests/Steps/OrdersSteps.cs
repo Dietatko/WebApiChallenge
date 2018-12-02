@@ -18,6 +18,7 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
             this.serviceClient = serviceClient;
         }
 
+        [Given(@"I creates a new (.*) order")]
         [When(@"I create a new (.*) order")]
         public async Task WhenICreateANewOrder(string name)
         {

@@ -17,7 +17,7 @@ namespace CheckoutChallenge.AcceptanceTests.Specification
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class OrderItemssFeature : Xunit.IClassFixture<OrderItemssFeature.FixtureData>, System.IDisposable
+    public partial class OrderItemsFeature : Xunit.IClassFixture<OrderItemsFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -27,7 +27,7 @@ namespace CheckoutChallenge.AcceptanceTests.Specification
 #line 1 "OrderItems.feature"
 #line hidden
         
-        public OrderItemssFeature(OrderItemssFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public OrderItemsFeature(OrderItemsFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -36,7 +36,7 @@ namespace CheckoutChallenge.AcceptanceTests.Specification
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "OrderItemss", "\tAs a consumer,\r\n\tI want to manage items in an order,\r\n\tso that I can build an or" +
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "OrderItems", "\tAs a consumer,\r\n\tI want to manage items in an order,\r\n\tso that I can build an or" +
                     "dering functionality", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
@@ -78,7 +78,7 @@ namespace CheckoutChallenge.AcceptanceTests.Specification
         }
         
         [Xunit.FactAttribute(DisplayName="Newly created order has no items")]
-        [Xunit.TraitAttribute("FeatureTitle", "OrderItemss")]
+        [Xunit.TraitAttribute("FeatureTitle", "OrderItems")]
         [Xunit.TraitAttribute("Description", "Newly created order has no items")]
         public virtual void NewlyCreatedOrderHasNoItems()
         {
@@ -96,6 +96,82 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Add new item")]
+        [Xunit.TraitAttribute("FeatureTitle", "OrderItems")]
+        [Xunit.TraitAttribute("Description", "Add new item")]
+        public virtual void AddNewItem()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new item", null, ((string[])(null)));
+#line 11
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 12
+ testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 13
+   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 14
+  testRunner.When("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+  testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 16
+   testRunner.And("the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Update item amount")]
+        [Xunit.TraitAttribute("FeatureTitle", "OrderItems")]
+        [Xunit.TraitAttribute("Description", "Update item amount")]
+        public virtual void UpdateItemAmount()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update item amount", null, ((string[])(null)));
+#line 18
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 19
+ testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 20
+   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 21
+  testRunner.When("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 2.5 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 22
+   testRunner.And("I update amount of product E831967C-622E-4804-87B5-BDE90B37F5C4 in my order to 4." +
+                    "6", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 23
+  testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 24
+   testRunner.And("the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 4." +
+                    "6", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Amount is summed if same product is added")]
+        [Xunit.TraitAttribute("FeatureTitle", "OrderItems")]
+        [Xunit.TraitAttribute("Description", "Amount is summed if same product is added")]
+        public virtual void AmountIsSummedIfSameProductIsAdded()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Amount is summed if same product is added", null, ((string[])(null)));
+#line 26
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 27
+ testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 28
+   testRunner.And("I creates a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 29
+  testRunner.When("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 2.2 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 30
+   testRunner.And("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 5.5 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 31
+  testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 32
+   testRunner.And("the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 7." +
+                    "7", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable
@@ -103,12 +179,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                OrderItemssFeature.FeatureSetup();
+                OrderItemsFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                OrderItemssFeature.FeatureTearDown();
+                OrderItemsFeature.FeatureTearDown();
             }
         }
     }
