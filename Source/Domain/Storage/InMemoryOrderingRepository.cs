@@ -25,5 +25,16 @@ namespace CheckoutChallenge.Domain.Storage
                 return order;
             }, cancellationToken);
         }
+
+        public Task StoreOrder(Order order, CancellationToken cancellationToken)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                orderStore.AddOrUpdate(
+                    order.Id, 
+                    order, 
+                    (id, existing) => order);
+            }, cancellationToken);
+        }
     }
 }

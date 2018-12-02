@@ -77,12 +77,12 @@ namespace CheckoutChallenge.AcceptanceTests.Specification
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="List orders")]
+        [Xunit.FactAttribute(DisplayName="Lists no orders on start")]
         [Xunit.TraitAttribute("FeatureTitle", "Orders")]
-        [Xunit.TraitAttribute("Description", "List orders")]
-        public virtual void ListOrders()
+        [Xunit.TraitAttribute("Description", "Lists no orders on start")]
+        public virtual void ListsNoOrdersOnStart()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("List orders", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Lists no orders on start", null, ((string[])(null)));
 #line 6
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
@@ -90,6 +90,27 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
   testRunner.Then("there are no existing orders", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Add new order")]
+        [Xunit.TraitAttribute("FeatureTitle", "Orders")]
+        [Xunit.TraitAttribute("Description", "Add new order")]
+        public virtual void AddNewOrder()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new order", null, ((string[])(null)));
+#line 10
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 11
+ testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 12
+  testRunner.When("I create a new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+  testRunner.Then("the service lists my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+   testRunner.And("the service provides details about my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

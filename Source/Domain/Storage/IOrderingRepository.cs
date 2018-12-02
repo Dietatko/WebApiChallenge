@@ -15,5 +15,7 @@ namespace CheckoutChallenge.Domain.Storage
         Task<IEnumerable<Order>> FindOrders(CancellationToken cancellationToken);
 
         Task<Order> GetOrder(Guid id, CancellationToken cancellationToken);
+
+        Task StoreOrder(Order order, CancellationToken cancellationToken);
     }
 }

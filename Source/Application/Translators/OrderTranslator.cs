@@ -17,7 +17,10 @@ namespace CheckoutChallenge.Application.Translators
         {
             return new Dto.Order
             {
-                Id = model.Id
+                Id = model.Id,
+                CustomerId = model.CustomerId,
+                CreatedAt = model.CreatedAt,
+                LastModifiedAt = model.LastModifiedAt
             };
         }
     }

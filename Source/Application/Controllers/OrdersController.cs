@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CheckoutChallenge.Application.Translators;
@@ -29,6 +30,33 @@ namespace CheckoutChallenge.Application.Controllers
             return Ok(new DataContracts.OrderList {
                 Items = orders.ToDto()
             });
+        }
+
+        [HttpGet("{id}", Name = nameof(GetOrder))]
+        public async Task<IActionResult> GetOrder(Guid id, CancellationToken cancellationToken)
+        {
+            var order = await repository.GetOrder(id, cancellationToken);
+            if (order == null)
+                return NotFound();
+
+            return Ok(order.ToDto());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] DataContracts.Order orderDto, CancellationToken cancellationToken)
+        {
+            Order newOrder;
+            try
+            {
+                newOrder = new Order(Guid.NewGuid(), orderDto.CustomerId);
+            }
+            catch (DataValidationException ex)
+            {
+                return BadRequest(new DataContracts.Error(ex.Message));
+            }
+            
+            await repository.StoreOrder(newOrder, cancellationToken);
+            return CreatedAtAction(nameof(GetOrder), new { id = newOrder.Id }, newOrder.ToDto());
         }
     }
 }

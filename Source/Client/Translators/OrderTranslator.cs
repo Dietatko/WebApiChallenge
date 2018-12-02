@@ -15,7 +15,11 @@ namespace CheckoutChallenge.Client.Translators
         }
         public static Model.Order ToModel(this Dto.Order dto)
         {
-            return new Model.Order(dto.Id);
+            return new Model.Order(
+                dto.Id, 
+                dto.CustomerId, 
+                dto.CreatedAt, 
+                dto.LastModifiedAt);
         }
     }
 }
