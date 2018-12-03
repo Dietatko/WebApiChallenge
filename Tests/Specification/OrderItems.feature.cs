@@ -91,7 +91,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
   testRunner.When("I create new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
-  testRunner.Then("the my order has no items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the my order should not have any items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -112,9 +112,9 @@ this.ScenarioInitialize(scenarioInfo);
 #line 14
   testRunner.When("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 15
-  testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the my order should have 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 16
-   testRunner.And("the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("the my order should contain product E831967C-622E-4804-87B5-BDE90B37F5C4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -138,7 +138,7 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.When("I update amount of product E831967C-622E-4804-87B5-BDE90B37F5C4 in my order to 4." +
                     "6", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 23
-  testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the my order should have 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 24
    testRunner.And("the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 4." +
                     "6", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -164,7 +164,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 30
    testRunner.And("I add product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 5.5 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
-  testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the my order should have 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 32
    testRunner.And("the my order contains product E831967C-622E-4804-87B5-BDE90B37F5C4 with amount 7." +
                     "7", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -190,7 +190,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 38
   testRunner.When("I remove product E831967C-622E-4804-87B5-BDE90B37F5C4 from my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 39
-  testRunner.Then("the my order has no items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the my order should not have any items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -215,9 +215,9 @@ this.ScenarioInitialize(scenarioInfo);
 #line 46
   testRunner.When("I remove product E831967C-622E-4804-87B5-BDE90B37F5C4 from my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 47
-  testRunner.Then("the my order has 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+  testRunner.Then("the my order should have 1 item", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 48
-   testRunner.And("the my order contains product 0C0A5849-AF60-4EA7-A093-32B25A3D3E36", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("the my order should contain product 0C0A5849-AF60-4EA7-A093-32B25A3D3E36", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

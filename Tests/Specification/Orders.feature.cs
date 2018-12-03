@@ -77,40 +77,23 @@ namespace CheckoutChallenge.AcceptanceTests.Specification
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Lists no orders on start")]
-        [Xunit.TraitAttribute("FeatureTitle", "Orders")]
-        [Xunit.TraitAttribute("Description", "Lists no orders on start")]
-        public virtual void ListsNoOrdersOnStart()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Lists no orders on start", null, ((string[])(null)));
-#line 6
-this.ScenarioInitialize(scenarioInfo);
-            this.ScenarioStart();
-#line 7
- testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 8
-  testRunner.Then("the service lists no existing orders", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
         [Xunit.FactAttribute(DisplayName="Add new order")]
         [Xunit.TraitAttribute("FeatureTitle", "Orders")]
         [Xunit.TraitAttribute("Description", "Add new order")]
         public virtual void AddNewOrder()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new order", null, ((string[])(null)));
-#line 10
+#line 6
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 11
+#line 7
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 12
+#line 8
   testRunner.When("I create new my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
-  testRunner.Then("the service lists the my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
-   testRunner.And("the service provides details about my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 9
+  testRunner.Then("the service should list the my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+   testRunner.And("the service should provide details about my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -121,20 +104,20 @@ this.ScenarioInitialize(scenarioInfo);
         public virtual void ClearingAnOrder()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Clearing an order", null, ((string[])(null)));
-#line 16
+#line 12
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 17
+#line 13
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 18
+#line 14
    testRunner.And("I created my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 19
+#line 15
    testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 20
+#line 16
   testRunner.When("I clear my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 21
-  testRunner.Then("the service lists the my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 22
+#line 17
+  testRunner.Then("the service should list the my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
    testRunner.And("the my order has no items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -146,19 +129,19 @@ this.ScenarioInitialize(scenarioInfo);
         public virtual void DeletingASingleOrder()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deleting a single order", null, ((string[])(null)));
-#line 24
+#line 20
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 25
+#line 21
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 26
+#line 22
    testRunner.And("I created my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 27
+#line 23
    testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 28
+#line 24
   testRunner.When("I delete my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 29
-  testRunner.Then("the service lists no existing orders", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 25
+  testRunner.Then("the service should not list my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -169,25 +152,25 @@ this.ScenarioInitialize(scenarioInfo);
         public virtual void DeletingOneOfTheOrders()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Deleting one of the orders", null, ((string[])(null)));
-#line 31
+#line 27
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 32
+#line 28
  testRunner.Given("I have running ordering service", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 33
+#line 29
    testRunner.And("I created first order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 34
+#line 30
    testRunner.And("I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to first order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 35
+#line 31
    testRunner.And("I created second order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 36
+#line 32
    testRunner.And("I added product 0C0A5849-AF60-4EA7-A093-32B25A3D3E36 to second order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 37
+#line 33
   testRunner.When("I delete first order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 38
-  testRunner.Then("the service lists 1 order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 39
-  testRunner.Then("the service lists the second order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 34
+  testRunner.Then("the service should not list first order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 35
+   testRunner.And("the service should list the second order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

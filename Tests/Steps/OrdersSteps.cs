@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CheckoutChallenge.Client;
@@ -11,10 +10,12 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
     [Binding]
     public class OrdersSteps
     {
+        private readonly ScenarioContext scenarioContext;
         private readonly IOrderingClient serviceClient;
 
-        public OrdersSteps(IOrderingClient serviceClient)
+        public OrdersSteps(ScenarioContext scenarioContext, IOrderingClient serviceClient)
         {
+            this.scenarioContext = scenarioContext;
             this.serviceClient = serviceClient;
         }
 
@@ -23,7 +24,7 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
         public async Task WhenICreateANewOrder(string name)
         {
             var order = await serviceClient.CreateOrder(Guid.NewGuid(), CancellationToken.None);
-            StoreOrder(name, order);
+            scenarioContext.StoreOrder(name, order);
         }
 
         [Then(@"the service lists no existing orders")]
@@ -33,27 +34,36 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
             allOrders.Should().BeEmpty();
         }
 
-        [Then(@"the service lists (1) order")]
-        [Then(@"the service lists (\d+) orders")]
+        [Then(@"the service should list (1) order")]
+        [Then(@"the service should list (\d+) orders")]
         public async Task ThenThereAreXOrder(int count)
         {
             var allOrders = await serviceClient.FindOrders(CancellationToken.None);
             allOrders.Should().HaveCount(count);
         }
 
-        [Then(@"the service lists the (.*) order")]
+        [Then(@"the service should list the (.*) order")]
         public async Task ThenServiceListsXOrder(string name)
         {
-            var expectedOrder = GetStoredOrder(name);
+            var expectedOrder = scenarioContext.GetOrder(name);
 
             var allOrders = await serviceClient.FindOrders(CancellationToken.None);
             allOrders.Should().Contain(x => x.Id == expectedOrder.Id);
         }
 
-        [Then(@"the service provides details about (.*) order")]
+        [Then(@"the service should not list (.*) order")]
+        public async Task ThenServiceDoesNotListXOrder(string name)
+        {
+            var expectedOrder = scenarioContext.GetOrder(name);
+
+            var allOrders = await serviceClient.FindOrders(CancellationToken.None);
+            allOrders.Should().NotContain(x => x.Id == expectedOrder.Id);
+        }
+        
+        [Then(@"the service should provide details about (.*) order")]
         public async Task ThenServiceProvidesDetailsAboutXOrder(string name)
         {
-            var order = GetStoredOrder(name);
+            var order = scenarioContext.GetOrder(name);
             var expectedValues = new
             {
                 order.Id,
@@ -73,27 +83,15 @@ namespace CheckoutChallenge.AcceptanceTests.Steps
         [When(@"I clear (.*) order")]
         public async Task WhenIClearMyOrder(string name)
         {
-            var order = GetStoredOrder(name);
+            var order = scenarioContext.GetOrder(name);
             await order.Clear(CancellationToken.None);
         }
 
         [When(@"I delete (.*) order")]
         public async Task WhenIDeleteMyOrder(string name)
         {
-            var order = GetStoredOrder(name);
+            var order = scenarioContext.GetOrder(name);
             await order.Delete(CancellationToken.None);
         }
-
-        public static void StoreOrder(string name, Order order)
-        {
-            ScenarioContext.Current.Set(order, GetOrderKey(name));
-        }
-
-        public static Order GetStoredOrder(string name)
-        {
-            return ScenarioContext.Current.Get<Order>(GetOrderKey(name));
-        }
-
-        private static string GetOrderKey(string name) => $"{nameof(Order)}_{name}";
     }
 }
