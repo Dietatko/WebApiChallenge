@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace CheckoutChallenge.Client
             httpClient = new HttpClient();
             httpClient.BaseAddress = serviceUrl;
             httpClient.Timeout = TimeSpan.FromSeconds(3);
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(Constants.JsonMimeType));
 
             serializerSettings = new JsonSerializerSettings()
             {
@@ -46,7 +48,7 @@ namespace CheckoutChallenge.Client
 
                 var httpResponse = await httpClient.PostAsync(
                     $"{ApiVersion}/orders",
-                    new StringContent(JsonConvert.SerializeObject(orderToCreate, serializerSettings), Encoding.UTF8, Constants.JsonMimeType),
+                    SerializeContent(orderToCreate),
                     cancellationToken);
                 await HandleFailure(httpResponse, "Creating an order");
 
@@ -150,7 +152,7 @@ namespace CheckoutChallenge.Client
 
                 var httpResponse = await httpClient.PostAsync(
                     AppendUri(order.Id, "items"),
-                    new StringContent(JsonConvert.SerializeObject(itemToCreate, serializerSettings), Encoding.UTF8, Constants.JsonMimeType),
+                    SerializeContent(itemToCreate),
                     cancellationToken);
                 await HandleFailure(httpResponse, "Creating an order item");
 
@@ -268,7 +270,7 @@ namespace CheckoutChallenge.Client
 
         private Uri AppendUri(Uri baseUri, string relativePath)
         {
-            // TODO: find better way how to append relative uris
+            // Uri class unfortunately does not allow to concat two relative urls
             return new Uri($"{baseUri}/{relativePath}", UriKind.Relative);
         }
     }

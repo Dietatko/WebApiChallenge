@@ -118,7 +118,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 17
   testRunner.Then("the service should list the my order", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 18
-   testRunner.And("the my order has no items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+   testRunner.And("the my order should not have any items", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

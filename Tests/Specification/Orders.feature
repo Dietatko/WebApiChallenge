@@ -15,7 +15,7 @@ Scenario: Clearing an order
 	  And I added product E831967C-622E-4804-87B5-BDE90B37F5C4 to my order
 	 When I clear my order
 	 Then the service should list the my order
-	  And the my order has no items
+	  And the my order should not have any items
 
 Scenario: Deleting a single order
 	Given I have running ordering service
