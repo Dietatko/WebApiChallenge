@@ -3,6 +3,7 @@
 The solution consists of .NET Core WebApi application, .NET Standard client access library and .NET Framework SpecFlow acceptance tests. Comments are added to code in places where solution is not obvious.
 
 ## Service (Part 1)
+
 ### Application
 
 The Application project is the service entry point. It uses ASP.Net Core web host (Kestrel-based). 
@@ -26,7 +27,7 @@ Defines the business logic of the service. Contains all the buisness rules:
 - Order item has amount (decimal number).
 - If second item with same product id are added, existing item is modified instead (no particular reason, just a business rule).
 
-Domain objects folow DDD ideas.
+Domain objects folow DDD principles.
 
 ### DataAccess
 
@@ -46,7 +47,8 @@ OrderingClient is an implementation of the public IOrderingClient interface as w
 
 ## Acceptance tests
 
-Acceptance tests covers whole functionality of the service including client library. That is the reason I decided not to implement classic unit tests. I believe acceptance tests simulating real consumers have more value. 
+Acceptance tests covers whole functionality of the service including client library. That is the reason I decided not to implement classic unit tests. I believe acceptance tests simulating real consumers have more value.
+Test projects are using .NET Framework 4.7.2 as SpecFlow does not fully support .NET Core yet.
 
 ### Features
 
