@@ -65,3 +65,6 @@ The current REST service is based on plain JSON structure. As the next step I wo
 
 ### Data storage
 All data are stored in memory. I would implement event store to store all changes to domain objects.
+
+### Security
+Currently there are no security measures as no requirments were provided. Everybody can access any data. The overall solution would need an authentication service issuing security token. The ordering service would then be abel to validate identity and limit access to only specific consumer data.
