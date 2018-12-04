@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Halcyon.Web.HAL.Json;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -19,6 +21,13 @@ namespace CheckoutChallenge.Application.Configuration
         {
             services
                 .AddMvcCore()
+                .AddMvcOptions(c =>
+                {
+                    c.OutputFormatters.RemoveType<JsonOutputFormatter>();
+                    c.OutputFormatters.Add(new JsonHalOutputFormatter(
+                        new [] { "application/hal+json", "application/vnd.example.hal+json", "application/vnd.example.hal.v1+json" }
+                    ));
+                })
                 .AddJsonFormatters(settings =>
                     {
                         settings.Converters.Add(new StringEnumConverter());

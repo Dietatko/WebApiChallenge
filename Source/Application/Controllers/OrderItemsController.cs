@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CheckoutChallenge.Application.Translators;
 using CheckoutChallenge.Domain.Model;
 using CheckoutChallenge.Domain.Storage;
+using Halcyon.HAL;
 using Microsoft.AspNetCore.Mvc;
 using Order = CheckoutChallenge.Domain.Model.Order;
 using OrderItem = CheckoutChallenge.Domain.Model.OrderItem;
@@ -12,7 +14,6 @@ using OrderItem = CheckoutChallenge.Domain.Model.OrderItem;
 namespace CheckoutChallenge.Application.Controllers
 {
     [Controller]
-    [Produces("application/json")]
     [Route("v1/orders/{orderId}/items")]
     public class OrderItemsController : ControllerBase
     {
@@ -23,14 +24,14 @@ namespace CheckoutChallenge.Application.Controllers
             this.repository = repository;
         }
 
-        [HttpGet]
+        [HttpGet(Name = nameof(GetItems))]
         public async Task<IActionResult> GetItems(Guid orderId, CancellationToken cancellationToken)
         {
             var order = await repository.GetOrder(orderId, cancellationToken);
             if (order == null)
                 return NotFound();
 
-            return Ok(order.Items.ToDto(x => CreateItemUrl(order, x)));
+            return Ok(GetHalResponse(order));
         }
         
         [HttpGet("{itemId}", Name = nameof(GetItem))]
@@ -44,7 +45,7 @@ namespace CheckoutChallenge.Application.Controllers
             if (item == null)
                 return NotFound();
 
-            return Ok(item.ToDto(CreateItemUrl(order, item)));
+            return Ok(GetHalResponse(order, item));
         }
 
         [HttpPost]
@@ -74,8 +75,9 @@ namespace CheckoutChallenge.Application.Controllers
             
             await repository.StoreOrder(order, cancellationToken);
 
-            var orderUrl = CreateItemUrl(order, item);
-            return Created(orderUrl, item.ToDto(orderUrl));
+            return Created(
+                CreateItemUrl(order, item), 
+                GetHalResponse(order, item));
         }
 
         [HttpPut("{itemId}")]
@@ -89,7 +91,7 @@ namespace CheckoutChallenge.Application.Controllers
             if (item == null)
                 return NotFound();
 
-            if (item.ProductId != itemDto.ProductId)
+            if (itemDto.ProductId != default && item.ProductId != itemDto.ProductId)
                 return BadRequest(new DataContracts.Error("Product cannot be changed."));
 
             try
@@ -103,7 +105,7 @@ namespace CheckoutChallenge.Application.Controllers
 
             await repository.StoreOrder(order, cancellationToken);
 
-            return Ok(item.ToDto(CreateItemUrl(order, item)));
+            return Ok(GetHalResponse(order, item));
         }
 
         [HttpDelete("{itemId}")]
@@ -131,7 +133,7 @@ namespace CheckoutChallenge.Application.Controllers
             return NoContent();
         }
 
-        [HttpDelete()]
+        [HttpDelete]
         public async Task<IActionResult> ClearItems(Guid orderId, CancellationToken cancellationToken)
         {
             var order = await repository.GetOrder(orderId, cancellationToken);
@@ -150,6 +152,34 @@ namespace CheckoutChallenge.Application.Controllers
             await repository.StoreOrder(order, cancellationToken);
 
             return NoContent();
+        }
+
+        private HALResponse GetHalResponse(Order order)
+        {
+            var items = order.Items.ToArray();
+            return new HALResponse(new {})
+                .AddSelfLink(CreateItemsUrl(order))
+                .AddEmbeddedCollection(HalUtils.ItemRel, items.Select(x => GetHalResponse(order, x)));
+        }
+
+        private HALResponse GetHalResponse(Order order, OrderItem item)
+        {
+            var itemUrl = CreateItemUrl(order, item);
+
+            return new HALResponse(item.ToDto(itemUrl))
+                .AddSelfLink(itemUrl)
+                .AddCheckoutLink(DataContracts.Relations.Order, CreateOrderUrl(order))
+                .AddCheckoutLink(DataContracts.Relations.OrderItems, CreateItemsUrl(order));
+        }
+
+        private Uri CreateOrderUrl(Order order)
+        {
+            return new Uri(Url.Action(nameof(OrdersController.GetOrder), "Orders", new { id = order.Id }), UriKind.Relative);
+        }
+
+        private Uri CreateItemsUrl(Order order)
+        {
+            return new Uri(Url.Action(nameof(GetItems), new { orderId = order.Id, }), UriKind.Relative);
         }
 
         private Uri CreateItemUrl(Order order, OrderItem item)
