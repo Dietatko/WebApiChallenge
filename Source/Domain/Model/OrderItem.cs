@@ -15,19 +15,7 @@ namespace CheckoutChallenge.Domain.Model
 
         public int Id { get; }
 
-        public Guid ProductId
-        {
-            get => productId;
-            set
-            {
-                if (value == Guid.Empty)
-                    throw new DataValidationException("A valid product id has to be specified.");
-
-                productId = value;
-                LastModifiedAt = DateTime.UtcNow;
-            }
-        }
-        private Guid productId;
+        public Guid ProductId { get; }
 
         public decimal Amount
         {
